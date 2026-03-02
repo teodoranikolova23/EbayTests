@@ -1,32 +1,26 @@
 
 ## Test URL
 
-Tests run against: `https://the-internet.herokuapp.com/`
+Tests run against: `https://ebay.com/`
+## Overview
+This project contains tests core eBay functionalitie using UI tests. The tests are implemented using C#, Selenium WebDriver and TestNG. The project is structured following the Page Object Model design pattern, which promotes maintainability and reusability of code.
 
-## Features
+## Scenarios Covered
 
-- **Automatic driver management**: WebDriverManager automatically downloads and configures the appropriate ChromeDriver version
-- **Clean abstractions**: IBrowser and IElement interfaces enable testability and maintainability
-- **Page Object Model**: Separates page structure from test logic for better organization
-- **Proper resource cleanup**: Ensures browser instances are properly disposed after tests
-
-## Contributing
-
-1. Create a new branch for your feature
-2. Implement tests following the existing patterns
-3. Ensure all tests pass
-4. Submit a pull request
-
-## Future Enhancements
-
-- Add support for multiple browsers (Firefox, Edge, Safari)
-- Implement explicit wait mechanisms in SeleniumElement
-- Add reporting and screenshot capture on test failure
-- Extend IElement implementation with more interaction methods
-- Add configuration file for test URLs and timeouts
+-Verify that the page is correct and opened
+-Verify that the first items has the title: Monopoly Board Game
+-Verify that there is a shipping to : Bulgaria 
+-Verify that there is a price of the item 
+-Verify that the title of the item contains “Monopoly”
+-Verify that the price is the same as on the first page
+-Verify that the item can be shipped to Bulgaria on the Shipping
+-Verify Returns
+-Verify Payments popup
+-Verify that you are on “https://cart.payments.ebay.com/”
+-Verify that in the Qty Drop Down List the quantity is “2”
+-Verify that the price is displayed for “2” items 
 
 
-
-## Authors
+## Author
 
 [Teodora Nikokolova]
