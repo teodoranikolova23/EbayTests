@@ -9,5 +9,6 @@
         bool Displayed { get; }
         bool Enabled { get; }
         string ElementName { get; }
+        bool IsDisplayed(int? timeOut = null);
     }
 }

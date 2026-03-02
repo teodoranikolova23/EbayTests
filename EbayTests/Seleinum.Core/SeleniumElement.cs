@@ -40,5 +40,32 @@ namespace SeleniumTests.Seleinum.Core
         public bool Enabled => WebElement.Enabled;
 
         public string ElementName => _elementName;
+
+        public bool IsDisplayed(int? timeOut = null)
+        {
+            if (timeOut.HasValue)
+            {
+                try
+                {
+                    var wait = new OpenQA.Selenium.Support.UI.WebDriverWait(_driver, TimeSpan.FromSeconds(timeOut.Value));
+                    return wait.Until(driver => driver.FindElement(_locator).Displayed);
+                }
+                catch (OpenQA.Selenium.WebDriverTimeoutException)
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                try
+                {
+                    return WebElement.Displayed;
+                }
+                catch (OpenQA.Selenium.NoSuchElementException)
+                {
+                    return false;
+                }
+            }
+        }
     }
 }

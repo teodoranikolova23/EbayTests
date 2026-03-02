@@ -42,5 +42,7 @@ namespace SeleniumTests.Seleinum.Core
             _driver?.Quit();
             _driver?.Dispose();
         }
+
+        public IWebDriver NativeDriver => _driver;
     }
 }
