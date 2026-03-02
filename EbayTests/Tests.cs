@@ -1,8 +1,10 @@
 using EbayTests.Extensions;
 using EbayTests.Pages;
 using EbayTests.Pages.Popups;
+using FluentAssertions;
 using SeleniumTests.Pages;
 using Tests;
+
 
 namespace SeleniumTests
 {
@@ -28,8 +30,7 @@ namespace SeleniumTests
         [Test]
         public void NavigateToEbay_PageIsLoaded()
         {
-            StringAssert.Contains("ebay.com", driver.Url);
-
+            driver.Url.Should().Contain("ebay.com", "eBay home page should be loaded");
         }
 
         /// <summary>
@@ -38,9 +39,7 @@ namespace SeleniumTests
         [Test]
         public void SearchBYNameMonopoly_ShippingToBulgariaDisplays()
         {
-            
-            Assert.That(HomePage.ShippingZipCode("Bulgaria").Displayed, Is.True,
-                "Expected shipping location label 'Bulgaria' to be displayed.");
+            HomePage.ShippingZipCode("Bulgaria").Displayed.Should().BeTrue("shipping location label '{0}' should be displayed", "Bulgaria");
         }
 
         /// <summary>
@@ -49,12 +48,11 @@ namespace SeleniumTests
         [Test]
         public void SearchBYNameMonopolyBoardGame_MonopolyBoardGameWithPriceDisplays()
         {
+            HomePage.MonopolyBoardGameItem.Text.Should().Contain("Monopoly Board Game",
+                  "The first Monopoly item title should contain 'Monopoly Board Game'");
 
-            StringAssert.Contains("Monopoly Board Game", HomePage.MonopolyBoardGameItem.Text,
-                "Expected the first Monopoly item title to contain 'Monopoly Board Game'.");
-
-            Assert.That(HomePage.GamePrice.Displayed, Is.True,
-                "Expected the price for the first 'Monopoly Board Game' item to display.");
+            HomePage.GamePrice.Displayed.Should().BeTrue(
+                "The price for the first 'Monopoly Board Game' item should be displayed");
         }
 
         /// <summary>
@@ -63,12 +61,9 @@ namespace SeleniumTests
         [Test]
         public void NavigateToDetailedView_TitleDisplaysMonopoly()
         {
-
             OpenFirstItemInNewTab(HomePage.MonopolyBoardGameItem);
 
-            StringAssert.Contains("Monopoly", ItemDetailsPage.ItemDetailsName.Text,
-                "Expected the item details name to contain 'Monopoly'.");
-
+            ItemDetailsPage.ItemDetailsName.Text.Should().Contain("Monopoly", "The item details name should contain 'Monopoly'");
         }
 
         /// <summary>
@@ -78,20 +73,20 @@ namespace SeleniumTests
         public void NavigateToDetailedView_PriceMatchesValueInHomePage()
         {
             var gamePriceText = HomePage.GamePrice.Text?.Trim();
-            Assert.That(gamePriceText, Is.Not.Empty, "GamePrice text was empty on HomePage.");
+            gamePriceText.Should().NotBeNullOrWhiteSpace("GamePrice text should not be empty on HomePage");
 
             var gamePrice = StringExtensions.ParsePrice(gamePriceText);
 
             OpenFirstItemInNewTab(HomePage.MonopolyBoardGameItem);
 
-
             var detailsPriceText = ItemDetailsPage.ItemDetailsPrice.Text?.Trim();
-            Assert.That(detailsPriceText, Is.Not.Empty, "ItemDetailsPrice text was empty on DetailedViewPage.");
+
+            detailsPriceText.Should().NotBeNullOrWhiteSpace("ItemDetailsPrice text should not be empty on DetailedViewPage");
 
             var detailsPrice = StringExtensions.ParsePrice(detailsPriceText);
 
-            Assert.That(detailsPrice, Is.EqualTo(gamePrice),
-                $"Expected ItemDetailsPrice ({detailsPriceText}) to equal GamePrice ({gamePriceText}).");
+            detailsPrice.Should().Be(gamePrice,
+                $"ItemDetailsPrice ({0}) should equal GamePrice ({1})", detailsPriceText, gamePriceText);
         }
 
         /// <summary>
@@ -108,14 +103,12 @@ namespace SeleniumTests
             SeeDetailsPopup.WaitToDisplay<SeeDetailsPopup>();
 
             var expectedReturnsText = "With eBay International Shipping, returns accepted within 30 days";
-            
-            StringAssert.Contains(expectedReturnsText, SeeDetailsPopup.ReturnsValue.Text,
-                $"Expected Returns text to contain '{expectedReturnsText}'.");
+
+            SeeDetailsPopup.ReturnsValue.Text.Should().Contain(expectedReturnsText, $"Returns text should contain '{0}'", expectedReturnsText);
 
             SeeDetailsPopup.ShowMore.Click();
-            
-            StringAssert.Contains("Bulgaria", SeeDetailsPopup.ShipsTo.Text,
-                "Expected the item details name to contain 'Bulgaria'.");
+
+            SeeDetailsPopup.ShipsTo.Text.Should().Contain("Bulgaria", "Ships-to text should contain 'Bulgaria'");
         }
 
         /// <summary>
@@ -135,8 +128,7 @@ namespace SeleniumTests
             
             PaymentsPopup.WaitToDisplay<PaymentsPopup>();
 
-            Assert.That(PaymentsPopup.LabelStandard.IsDisplayed(), Is.True,
-                "Expected Label 'Standard' to be displayed.");
+            PaymentsPopup.LabelStandard.IsDisplayed().Should().BeTrue("Label 'Standard' should be displayed.");
         }
 
         /// <summary>
@@ -153,7 +145,7 @@ namespace SeleniumTests
 
             ItemDetailsPage.AddToCart.Click();
 
-            StringAssert.Contains("cart.payments.ebay.com", driver.Url);
+            driver.Url.Should().Be("cart.payments.ebay.com");
         }
 
         /// <summary>
@@ -163,7 +155,7 @@ namespace SeleniumTests
         public void TwoItemsAddedToChart_QuantityAndPriceAffected()
         {
             var priceString = HomePage.GamePrice.Text?.Trim();
-            Assert.That(priceString, Is.Not.Empty, "GamePrice text was empty on HomePage.");
+            priceString.Should().NotBeNullOrWhiteSpace("GamePrice text should not be empty on HomePage");
 
             var gamePrice = StringExtensions.ParsePrice(priceString);
 
@@ -176,22 +168,20 @@ namespace SeleniumTests
             ItemDetailsPage.AddToCart.Click();
 
             AddToCartPopup.WaitToDisplay<AddToCartPopup>();
-            Thread.Sleep(1000); // robust wait must be added 
-            
-            StringAssert.Contains(quantity.ToString(), AddToCartPopup.CartQuantity.Text,
-                $"Expected the Quantity to contain '{quantity}'.");
+            Thread.Sleep(1000); // robust wait must be added
+
+            AddToCartPopup.CartQuantity.Text.Should().Contain(quantity.ToString(),
+                "cart quantity should contain '{0}'", quantity);
 
             var itemsTotalString = AddToCartPopup.TotalPrice.Text?.Trim();
-            Assert.That(itemsTotalString, Is.Not.Empty, "Items total text was empty in AddToCart popup.");
+            itemsTotalString.Should().NotBeNullOrWhiteSpace("Items total text should not be empty in AddToCart popup");
 
             var itemsTotal = StringExtensions.ParsePrice(itemsTotalString);
 
             var expectedTotal = gamePrice * quantity;
 
-            Assert.That(itemsTotal, Is.EqualTo(expectedTotal),
-                $"Expected items total ({itemsTotalString}) to equal {quantity} x game price ({priceString}).");
+            itemsTotal.Should().Be(expectedTotal,
+                $"items total ({0}) should equal {1} x game price ({2})", itemsTotalString, quantity, priceString);
         }
-
-    }
-    
+    }  
 }
