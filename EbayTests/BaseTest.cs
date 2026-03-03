@@ -1,6 +1,4 @@
-﻿using EbayTests.Pages;
-using EbayTests.Pages.Popups;
-using OpenQA.Selenium.Chrome;
+﻿using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
 using SeleniumTests.Pages;
 using SeleniumTests.Seleinum.Core;
