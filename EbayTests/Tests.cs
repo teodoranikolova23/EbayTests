@@ -39,7 +39,7 @@ namespace SeleniumTests
         [Test]
         public void SearchBYNameMonopoly_ShippingToBulgariaDisplays()
         {
-            HomePage.ShippingZipCode("Bulgaria").Displayed.Should().BeTrue("shipping location label '{0}' should be displayed", "Bulgaria");
+            HomePage.ShippingZipCode("Bulgaria").Displayed.Should().BeTrue($"shipping location label '{0}' should be displayed", "Bulgaria");
         }
 
         /// <summary>
@@ -73,6 +73,7 @@ namespace SeleniumTests
         public void NavigateToDetailedView_PriceMatchesValueInHomePage()
         {
             var gamePriceText = HomePage.GamePrice.Text?.Trim();
+
             gamePriceText.Should().NotBeNullOrWhiteSpace("GamePrice text should not be empty on HomePage");
 
             var gamePrice = StringExtensions.ParsePrice(gamePriceText);
@@ -133,9 +134,10 @@ namespace SeleniumTests
         public void TwoItemsAddedToChart_CartPaymentsPageIsLoaded()
         {
             OpenFirstItemInNewTab(HomePage.MonopolyBoardGameItem);
-            ItemDetailsPage.QuantityField.Clear();
-            ItemDetailsPage.QuantityField.TypeText("2");
-            ItemDetailsPage.AddToCart.Click();
+
+            var quantity = 2;
+
+            ItemDetailsPage.FillQuantity(quantity);
 
             driver.Url.Should().Be("cart.payments.ebay.com");
         }
@@ -147,6 +149,7 @@ namespace SeleniumTests
         public void TwoItemsAddedToChart_QuantityAndPriceAffected()
         {
             var priceString = HomePage.GamePrice.Text?.Trim();
+
             priceString.Should().NotBeNullOrWhiteSpace("GamePrice text should not be empty on HomePage");
 
             var gamePrice = StringExtensions.ParsePrice(priceString);
@@ -154,13 +157,13 @@ namespace SeleniumTests
             OpenFirstItemInNewTab(HomePage.MonopolyBoardGameItem);
 
             var quantity = 2;
-            ItemDetailsPage.QuantityField.Clear();
-            ItemDetailsPage.QuantityField.TypeText(quantity.ToString());
-            ItemDetailsPage.AddToCart.Click();
+
+            ItemDetailsPage.FillQuantity(quantity);
+
             AddToCartPopup.WaitToDisplay<AddToCartPopup>();
 
             AddToCartPopup.CartQuantity.Text.Should().Contain(quantity.ToString(),
-                "cart quantity should contain '{0}'", quantity);
+                "Cart quantity should contain '{0}'", quantity);
 
             var itemsTotalString = AddToCartPopup.TotalPrice.Text?.Trim();
             itemsTotalString.Should().NotBeNullOrWhiteSpace("Items total text should not be empty in AddToCart popup");
