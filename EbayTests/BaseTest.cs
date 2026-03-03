@@ -13,11 +13,8 @@ namespace Tests
         public ChromeDriver driver;
         protected IBrowser Browser { get; private set; }
 
-        protected HomePage HomePage => new HomePage(Browser);
-        protected DetailedViewPage DetailedViewPage => new DetailedViewPage(Browser);
+        private HomePage HomePage => new HomePage(Browser);
 
-        protected AddToCartPopup AddToCartPopup => new AddToCartPopup(Browser);
-        protected SeeDetailsPopup SeeDetailsPopup => new SeeDetailsPopup(Browser);
 
         [SetUp]
         public void Setup()
