@@ -23,6 +23,11 @@ namespace EbayTests.Pages.Popups
             var wait = new WebDriverWait(Browser.NativeDriver, TimeSpan.FromSeconds(timeoutSeconds));
             wait.Until(_ => Browser.NativeDriver.FindElements(PopupBy).Count > 0);
             wait.Until(_ => PopupRoot.IsDisplayed());
+            wait.Until(d =>
+            {
+                var spinners = d.FindElements(By.CssSelector(".spinner, .loading, .loader"));
+                return spinners.Count == 0 || spinners.All(s => !s.Displayed);
+            });
             return (TPopup)this;
         }
     }

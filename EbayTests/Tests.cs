@@ -97,9 +97,7 @@ namespace SeleniumTests
         public void ClickOnSeeDetails_ShipsToBulgariaDisplays()
         {
             OpenFirstItemInNewTab(HomePage.MonopolyBoardGameItem);
-
             ItemDetailsPage.SeeDetails.Click();
-
             SeeDetailsPopup.WaitToDisplay<SeeDetailsPopup>();
 
             var expectedReturnsText = "With eBay International Shipping, returns accepted within 30 days";
@@ -119,13 +117,9 @@ namespace SeleniumTests
         public void ClickOnPayments_PaymentsDisplay()
         {
             OpenFirstItemInNewTab(HomePage.MonopolyBoardGameItem);
-
             ItemDetailsPage.SeeDetails.Click();
-
             SeeDetailsPopup.WaitToDisplay<SeeDetailsPopup>();
-
-            SeeDetailsPopup.PaymentMethods.Click();
-            
+            SeeDetailsPopup.PaymentMethods.Click();          
             PaymentsPopup.WaitToDisplay<PaymentsPopup>();
 
             PaymentsPopup.LabelStandard.IsDisplayed().Should().BeTrue("Label 'Standard' should be displayed.");
@@ -139,10 +133,8 @@ namespace SeleniumTests
         public void TwoItemsAddedToChart_CartPaymentsPageIsLoaded()
         {
             OpenFirstItemInNewTab(HomePage.MonopolyBoardGameItem);
-
             ItemDetailsPage.QuantityField.Clear();
             ItemDetailsPage.QuantityField.TypeText("2");
-
             ItemDetailsPage.AddToCart.Click();
 
             driver.Url.Should().Be("cart.payments.ebay.com");
@@ -164,11 +156,8 @@ namespace SeleniumTests
             var quantity = 2;
             ItemDetailsPage.QuantityField.Clear();
             ItemDetailsPage.QuantityField.TypeText(quantity.ToString());
-
             ItemDetailsPage.AddToCart.Click();
-
             AddToCartPopup.WaitToDisplay<AddToCartPopup>();
-            Thread.Sleep(1000); // robust wait must be added
 
             AddToCartPopup.CartQuantity.Text.Should().Contain(quantity.ToString(),
                 "cart quantity should contain '{0}'", quantity);
