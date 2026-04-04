@@ -1,12 +1,11 @@
 
 ## Test URL
-
 Tests run against: `https://ebay.com/`
+
 ## Overview
 This project contains tests core eBay functionalitie using UI tests. The tests are implemented using C#, Selenium WebDriver and TestNG. The project is structured following the Page Object Model design pattern, which promotes maintainability and reusability of code.
 
 ## Scenarios Covered
-
 -Verify that the page is correct and opened
 -Verify that the first items has the title: Monopoly Board Game
 -Verify that there is a shipping to : Bulgaria 
@@ -22,5 +21,4 @@ This project contains tests core eBay functionalitie using UI tests. The tests a
 
 
 ## Author
-
 [Teodora Nikokolova]
