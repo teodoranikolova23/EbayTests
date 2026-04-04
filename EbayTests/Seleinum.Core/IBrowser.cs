@@ -1,4 +1,5 @@
 ﻿using OpenQA.Selenium;
+using Selenium.Core.Interfaces;
 
 namespace SeleniumTests.Seleinum.Core
 {
@@ -9,5 +10,6 @@ namespace SeleniumTests.Seleinum.Core
         INavigation Navigate();
         void GoToUrl(string url);
         void Maximize();
+        IElementsList CreateElements(By locator, string? name = null);
     }
 }

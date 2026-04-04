@@ -1,5 +1,6 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using Selenium.Core.Interfaces;
 
 namespace SeleniumTests.Seleinum.Core
 {

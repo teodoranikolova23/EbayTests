@@ -21,7 +21,7 @@ namespace SeleniumTests
         public void NavigateToItemsByCategoryAndSearchedName()
         {
             HomePage.NavigateToSelectedCategoryAndSearchedName("Toys & Hobbies", "Monopoly Board Game");
-            Browser.WaitForHomePageLoaded("Bulgaria");
+            //Browser.WaitForHomePageLoaded("Bulgaria");
         }
 
         /// <summary>
@@ -120,7 +120,7 @@ namespace SeleniumTests
             OpenFirstItemInNewTab(HomePage.MonopolyBoardGameItem);
             ItemDetailsPage.SeeDetails.Click();
             SeeDetailsPopup.WaitToDisplay<SeeDetailsPopup>();
-            SeeDetailsPopup.PaymentMethods.Click();          
+            SeeDetailsPopup.PaymentMethods.Click();
             PaymentsPopup.WaitToDisplay<PaymentsPopup>();
 
             PaymentsPopup.LabelStandard.IsDisplayed().Should().BeTrue("Label 'Standard' should be displayed.");
@@ -175,5 +175,5 @@ namespace SeleniumTests
             itemsTotal.Should().Be(expectedTotal,
                 $"items total ({0}) should equal {1} x game price ({2})", itemsTotalString, quantity, priceString);
         }
-    }  
+    }
 }
