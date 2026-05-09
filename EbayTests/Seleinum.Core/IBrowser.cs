@@ -10,6 +10,5 @@ namespace SeleniumTests.Seleinum.Core
         INavigation Navigate();
         void GoToUrl(string url);
         void Maximize();
-        IElementsList CreateElements(By locator, string? name = null);
     }
 }
